@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+
+  db:
+    image: postgres:14-alpine
+    container_name: ${APP_NAME}_db
+    ports:
+      - ${DOCKER_ADDRESS}:${DB_PORT}:${DB_PORT}
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./docker/pgsql/:/var/lib/postgresql/data/
+
+  db_testing:
+    image: postgres:14-alpine
+    container_name: ${APP_NAME}_db_testing
+    ports:
+      - ${DOCKER_ADDRESS}:5433:${DB_PORT}
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  cache:
+    image: nbtri/alpine-redis
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    container_name: ${APP_NAME}_cache
+    hostname: ${APP_NAME}_cache
+    ports:
+      - ${DOCKER_ADDRESS}:${REDIS_PORT}:${REDIS_PORT}
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DOCKER_NETWORK}
