@@ -9,8 +9,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 public class Message {
-    private static final String TABLE = "messages";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,7 +17,7 @@ public class Message {
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(table = Message.TABLE, name = "user_id")
+    @JoinColumn(name = "user_id")
     private User author;
 
     public Message(String text, String tag) {
