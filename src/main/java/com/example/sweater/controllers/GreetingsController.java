@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class GreetingsController {
     private final MessageRepo messageRepo;
 
-    @GetMapping("/greeting")
+    @GetMapping("/")
     public String index(
             @RequestParam(name = "name", required = false, defaultValue = "World") String name,
             Model model
     ) {
         model.addAttribute("name", name);
 
-        return "greeting";
+        return "login";
     }
 
-    @GetMapping
+    @GetMapping("main")
     public String main(Model model) {
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -32,7 +32,7 @@ public class GreetingsController {
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("main")
     public String add(
             @RequestParam String text,
             @RequestParam String tag,
@@ -47,7 +47,7 @@ public class GreetingsController {
         return "main";
     }
 
-    @PostMapping("filter")
+    @GetMapping("filter")
     public String filter(
             @RequestParam String query,
             Model model
