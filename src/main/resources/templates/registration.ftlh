@@ -2,7 +2,9 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    Add new user
+    <div class="mb-1">
+        Add new user
+    </div>
     ${message?exists}
-    <@l.login path="/registration"/>
+    <@l.login path="/registration" isRegisterForm=true />
 </@c.page>
